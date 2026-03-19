@@ -3,7 +3,7 @@ const router = express.Router();
 const kegiatan = require("../controllers/kegiatanController");
 const { kegiatanUpload } = require("../middleware/upload");
 
-router.get("/", kegiatan.getAllKegiatan);
+// router.get("/", kegiatan.getAllKegiatan);
 router.post(
   "/",
   kegiatanUpload.fields([
@@ -22,6 +22,7 @@ router.patch(
 );
 router.delete("/:id", kegiatan.deleteKegiatan);
 router.get("/:date", kegiatan.getAllKegiatanByDate);
+router.get("/", kegiatan.getAllKegiatanByRangeDate);
 
 
 module.exports = router;

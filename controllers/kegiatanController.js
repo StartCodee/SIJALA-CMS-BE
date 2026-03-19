@@ -128,3 +128,31 @@ exports.getAllKegiatanByDate = async (req, res) => {
     res.status(500).json(err.message);
   }
 };
+
+exports.getAllKegiatanByRangeDate = async (req, res) => {
+  const { start_date, end_date } = req.query;
+
+  try {
+    if (!start_date || !end_date) {
+      return res.status(400).json({
+        message: "start_date dan end_date wajib diisi",
+      });
+    }
+
+    const result = await db.query(
+      `
+      SELECT *
+      FROM kalender_kegiatan
+      WHERE date >= $1 AND date <= $2
+      ORDER BY date ASC, time ASC
+      `,
+      [start_date, end_date]
+    );
+
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({
+      message: err.message,
+    });
+  }
+};
